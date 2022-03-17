@@ -53,6 +53,6 @@ jobs:
     - name: Publish NuGet
       uses: brandedoutcast/publish-nuget@v2.5.5
       with:
-        PROJECT_FILE_PATH: src/HandyExtensions.csproj
+        PROJECT_FILE_PATH: $env:Wap_Project_Path
         TAG_FORMAT: '*'  
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
