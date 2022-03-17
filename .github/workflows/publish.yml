@@ -8,8 +8,6 @@ on:
     paths:
       - 'src/**'
 jobs:
-  build:
-    uses: cwinland/HandyExtensions/.github/workflows/test.yml@master
   publish:
    strategy:
       matrix:
@@ -21,6 +19,9 @@ jobs:
       Wap_Project_Path: src\HandyExtensions\HandyExtensions.csproj
 
    steps:
+   - name: Build Test
+     uses: cwinland/HandyExtensions/.github/workflows/test.yml@master
+
    # Nuget        
    - name: Publish NuGet
      uses: brandedoutcast/publish-nuget@v2.5.5
