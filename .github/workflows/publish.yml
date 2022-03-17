@@ -8,18 +8,27 @@ on:
     paths:
       - 'src/**'
 jobs:
+  build:
+    uses: cwinland/HandyExtensions/.github/workflows/test.yml@master
+    
   publish:
-   runs-on: windows-latest  # For a list of available runner types, refer to
+    needs: build
+    runs-on: windows-latest  # For a list of available runner types, refer to
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
-   env:
+    env:
       Wap_Project_Path: src\HandyExtensions\HandyExtensions.csproj
 
-   steps:
-   - uses: cwinland/HandyExtensions/.github/workflows/test.yml@master
-   # Nuget        
-   - name: Publish NuGet
-     uses: brandedoutcast/publish-nuget@v2.5.5
-     with:
-       PROJECT_FILE_PATH: $env:Wap_Project_Path
-       TAG_FORMAT: '*'  
-       NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@master
+      with:
+        name: build-output
+        path: build/
+        
+    # Nuget        
+    - name: Publish NuGet
+      uses: brandedoutcast/publish-nuget@v2.5.5
+      with:
+        PROJECT_FILE_PATH: $env:Wap_Project_Path
+        TAG_FORMAT: '*'  
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
