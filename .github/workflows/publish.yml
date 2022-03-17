@@ -2,33 +2,90 @@ name: Publish Packages
 
 on:
   workflow_dispatch:
+  workflow_call:
   push:
     branches:
       - master # Default release branch
     paths:
       - 'src/**'
 jobs:
+
   build:
-    uses: cwinland/HandyExtensions/.github/workflows/test.yml@master
-    
-  publish:
-    needs: build
+
+    strategy:
+      matrix:
+        configuration: [Release]
+
     runs-on: windows-latest  # For a list of available runner types, refer to
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+
     env:
+      Solution_Name: src\HandyExtensions.sln                        # Replace with your solution name, i.e. MyWpfApp.sln.
+      #Test_Project_Path: wpf-material-dialogs.test\wpf-material-dialogs.test.csproj               # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
+      Wap_Project_Directory: src    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
       Wap_Project_Path: src\HandyExtensions\HandyExtensions.csproj
 
     steps:
-    - name: Download artifact
-      uses: actions/download-artifact@master
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+
+    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    # Execute all unit tests in the solution
+    #- name: Execute unit tests
+    #  run: dotnet test
+
+    # Restore the application to populate the obj folder with RuntimeIdentifiers
+    - name: Restore the application
+      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
+      env:
+        Configuration: ${{ matrix.configuration }}
+        
+    - name: Create artifact
+      uses: actions/upload-artifact@master
       with:
         name: build-output
         path: build/
+
+#on:
+#  workflow_dispatch:
+#  push:
+#    branches:
+#      - master # Default release branch
+#    paths:
+#      - 'src/**'
+#jobs:
+#  build:
+#    uses: cwinland/HandyExtensions/.github/workflows/test.yml@master
+#    
+#  publish:
+#    needs: build
+#    runs-on: windows-latest  # For a list of available runner types, refer to
+#                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+#    env:
+#      Wap_Project_Path: src\HandyExtensions\HandyExtensions.csproj
+#
+#    steps:
+#    - name: Download artifact
+#      uses: actions/download-artifact@master
+#      with:
+#        name: build-output
+#        path: build/
         
     # Nuget        
-    - name: Publish NuGet
-      uses: brandedoutcast/publish-nuget@v2.5.5
-      with:
-        PROJECT_FILE_PATH: $env:Wap_Project_Path
-        TAG_FORMAT: '*'  
-        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+#    - name: Publish NuGet
+#      uses: brandedoutcast/publish-nuget@v2.5.5
+#      with:
+#        PROJECT_FILE_PATH: $env:Wap_Project_Path
+#        TAG_FORMAT: '*'  
+#        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
