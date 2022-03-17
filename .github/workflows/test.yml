@@ -2,6 +2,7 @@ name: Test
 
 on:
   workflow_dispatch:
+  workflow_call:
   push:
     branches:
       - master # Default release branch
@@ -19,10 +20,10 @@ jobs:
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
-      Solution_Name: HandyExtensions.sln                        # Replace with your solution name, i.e. MyWpfApp.sln.
+      Solution_Name: src\HandyExtensions.sln                        # Replace with your solution name, i.e. MyWpfApp.sln.
       #Test_Project_Path: wpf-material-dialogs.test\wpf-material-dialogs.test.csproj               # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
       Wap_Project_Directory: src    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
-      Wap_Project_Path: src/HandyExtensions.csproj
+      Wap_Project_Path: src\HandyExtensions\HandyExtensions.csproj
 
     steps:
     - name: Checkout
