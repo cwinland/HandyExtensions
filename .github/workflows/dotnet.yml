@@ -10,6 +10,9 @@ jobs:
   build:
 
     runs-on: windows-latest
+    
+    env:
+      Solution_Name: src/HandyExtensions.sln
 
     steps:
     - name: Checkout
