@@ -51,11 +51,11 @@ jobs:
       env:
         Configuration: ${{ matrix.configuration }}
         
-    - name: Create artifact
-      uses: actions/upload-artifact@master
-      with:
-        name: build-output
-        path: build/
+    #- name: Create artifact
+    #  uses: actions/upload-artifact@master
+    #  with:
+    #    name: build-output
+    #    path: build/
 
 #on:
 #  workflow_dispatch:
@@ -83,9 +83,9 @@ jobs:
 #        path: build/
         
     # Nuget        
-#    - name: Publish NuGet
-#      uses: brandedoutcast/publish-nuget@v2.5.5
-#      with:
-#        PROJECT_FILE_PATH: $env:Wap_Project_Path
-#        TAG_FORMAT: '*'  
-#        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+    - name: Publish NuGet
+      uses: brandedoutcast/publish-nuget@v2.5.5
+      with:
+        PROJECT_FILE_PATH: $env:Wap_Project_Path
+        TAG_FORMAT: '*'  
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
