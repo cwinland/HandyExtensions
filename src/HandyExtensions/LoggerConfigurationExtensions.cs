@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Events;
 using System;
+using System.Linq;
+using System.Reflection;
 using ErrorEventArgs = System.IO.ErrorEventArgs;
 
 namespace HandyExtensions
