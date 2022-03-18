@@ -7,7 +7,27 @@
     <PackageTags>extensions Serilog logging error messages, observable collections, datetime, file system, lamba expressions, processes, secure string, strings.</PackageTags>
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <PackageId>$(AssemblyName)Toolbox</PackageId>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
+    <Copyright>copyright(c) 2022 Christopher Winland</Copyright>
+    <PackageProjectUrl>https://github.com/cwinland/HandyExtensions</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/cwinland/HandyExtensions</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\LICENSE.TXT"
+             Link="license.txt"
+             Pack="true"
+             PackagePath="license.txt" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />

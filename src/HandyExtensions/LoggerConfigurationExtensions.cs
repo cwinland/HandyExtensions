@@ -1,10 +1,7 @@
 ﻿using HandyExtensions.EventArgs;
-using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Events;
 using System;
-using System.Linq;
-using System.Reflection;
 using ErrorEventArgs = System.IO.ErrorEventArgs;
 
 namespace HandyExtensions
@@ -12,64 +9,8 @@ namespace HandyExtensions
     /// <summary>
     /// Contains extension methods for the <see cref="LoggerConfiguration" /> class.
     /// </summary>
-    internal static class LoggerConfigurationExtensions
+    public static class LoggerConfigurationExtensions
     {
-        /// <summary>
-        /// Enables EventLog logging.
-        /// </summary>
-        /// <param name="config">The <see cref="LoggerConfiguration" /> being extended.</param>
-        /// <returns>The <see cref="LoggerConfiguration" /> for chaining.</returns>
-        /// <exception cref="ArgumentNullException">Path</exception>
-        internal static LoggerConfiguration AddEventLogLogging(this LoggerConfiguration config) =>
-
-            //try
-            //{
-            //    config.WriteTo?.EventLog(EVENT_LOG_SOURCE, manageEventSource: true, logName: EVENT_LOG_SOURCE);
-            //}
-            //catch (SecurityException)
-            //{
-            //    const string LOG_NAME = "LPELog.txt";
-            //    var fileSystem = new FileSystem();
-            //    if (fileSystem.Path == null)
-            //    {
-            //        throw new ArgumentNullException(nameof(fileSystem.Path));
-            //    }
-            //    var dirInfo = Environment.CurrentDirectory;
-            //    var fileName = fileSystem.Path.Combine(dirInfo ?? string.Empty, LOG_NAME) ?? LOG_NAME;
-            //    config.WriteTo?.File(fileName, rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true);
-            //}
-            config;
-
-        /// <summary>
-        /// Sets up the internal Serilog logger that is used to perform logging
-        /// </summary>
-        /// <param name="config">The configuration.</param>
-        /// <param name="configuration">The configuration.</param>
-        /// <returns>The <see cref="ILogger" /> that is setup.</returns>
-        /// <exception cref="ArgumentNullException">config</exception>
-        /// <exception cref="ArgumentNullException">configuration</exception>
-        internal static LoggerConfiguration ReadFromConfiguration(this LoggerConfiguration config,
-            IConfiguration configuration)
-        {
-            if (config == null)
-            {
-                throw new ArgumentNullException(nameof(config));
-            }
-
-            if (configuration == null)
-            {
-                throw new ArgumentNullException(nameof(configuration));
-            }
-
-            config
-                .Enrich?.FromLogContext()
-
-                //?.Enrich.WithUtcTimestamp()
-                ?.AddEventLogLogging();
-
-            return config;
-        }
-
         /// <summary>
         /// Writes the error.
         /// </summary>
