@@ -6,6 +6,7 @@
     <Description>A collection of extensions for logging messages, observable collections, datetime, file system, lamba expressions, processes, secure string, and strings.</Description>
     <PackageTags>extensions Serilog logging error messages, observable collections, datetime, file system, lamba expressions, processes, secure string, strings.</PackageTags>
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <PackageId>$(AssemblyName)Toolbox</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
