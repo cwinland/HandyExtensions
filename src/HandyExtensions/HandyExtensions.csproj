@@ -15,6 +15,21 @@
     <RepositoryUrl>https://github.com/cwinland/HandyExtensions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
+  <PropertyGroup>
+    <GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);SetPackageVersion</GenerateNuspecDependsOn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <Target Name="SetPackageVersion">
+    <PropertyGroup>
+      <!-- You can customize the format and the rule about how version increases here. -->
+      <PackageVersion>1.0.$([System.DateTime]::Now.ToString("yyMM.ddHHmm"))</PackageVersion>
+    </PropertyGroup>
+  </Target>
+
   <ItemGroup>
     <None Include="..\..\README.md">
       <Pack>True</Pack>
